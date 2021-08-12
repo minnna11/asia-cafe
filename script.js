@@ -119,7 +119,7 @@ function generateThisWeeks(thisWeeks){
                 ${thisWeek.description}
             </div>
             <div class="product-price text-lg">
-                $${thisWeek.price}
+                ${numeral(thisWeek.price).format('$0,0.00')}
             </div>
             
         `
@@ -182,7 +182,7 @@ function generateBubbleTea(bubbleteas){
                 ${bubbletea.description}
             </div>
             <div class="product-price text-lg">
-                $${bubbletea.price}
+                ${numeral(bubbletea.price).format('$0,0.00')}
             </div>
             <div class="product-button bg-purple-200 rounded flex items-center justify-center p-1 text-black text-xl mt-2 mb-3">
                 Add to Cart
@@ -198,29 +198,47 @@ function generateNoodles(noodles){
     //declare variable
     let noodlesHTML ="";
     //loop through noodles
+    
+        //loop through for drinks
     noodles.forEach((noodle) => {
-        noodlesHTML += `
-        <div class="main-product w-36  ml-8 mt-7">
+        //create element
+        let doc = document.createElement("div");
+        //add all the classes of main product
+        doc.classList.add("main-product", "w-36", "ml-8", "mt-7");
+        doc.innerHTML =`
         <div class="product-image w-32 h-32 bg-white rounded-2xl border border-gray-500">
-            <img class="w-full h-full object-contain" src="${noodle.image}">
-        </div>
-        <div class="product-name font-bold">
-            ${noodle.name}
-        </div>
-        <div class="product-discription text-xs">
-            ${noodle.description}
-        </div>
-        <div class="product-price text-lg">
-            $${noodle.price}
-        </div>
-        <div class="product-button bg-purple-200 rounded flex items-center justify-center p-1 text-black text-xl mt-2 mb-3">
-            Add to Cart
-        </div>
-        </div>
+        <img class="w-full h-full object-contain" src="${noodle.image}">
+    </div>
+    <div class="product-name font-bold">
+        ${noodle.name}
+    </div>
+    <div class="product-discription text-xs">
+        ${noodle.description}
+    </div>
+    <div class="product-price text-lg">
+        ${numeral(noodle.price).format('$0,0.00')}
+    </div>
+    
         `
+
+        //create div
+        let addToCartEl = document.createElement("div");
+        //adding class
+        addToCartEl.classList.add("product-button","bg-purple-200","rounded","flex","items-center",
+        "justify-center","p-1","text-black","text-xl","mt-2","mb-3","cursor-pointer","hover:bg-purple-500");
+        //adding inner text
+        addToCartEl.innerText = "Add to cart";
+        //adding event listener for clicks
+        addToCartEl.addEventListener("click", function(){
+            //call out add to cart
+            addToCart(noodles)
+        })
+        doc.appendChild(addToCartEl);
+        document.querySelector(".item-noodles").appendChild(doc);
+        
     })
     
-    document.querySelector(".item-noodles").innerHTML = noodlesHTML;
+    //document.querySelector(".item-noodles").innerHTML = noodlesHTML;
 }
 
 getThisWeeks();
